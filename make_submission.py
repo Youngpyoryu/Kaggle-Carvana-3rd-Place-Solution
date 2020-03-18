@@ -22,7 +22,7 @@ def run_length_encode(mask):
     return rle
 
 
-df_test = pd.read_csv('input/sample_submission.csv')
+df_test = pd.read_csv('./input/sample_submission.csv')
 ids_test = df_test['img'].map(lambda s: s.split('.')[0])
 
 names = []
@@ -32,7 +32,7 @@ for _id in ids_test:
 rles = []
 
 model = load_model(
-    filepath='weights/model_weights.hdf5',
+    filepath='./weights/model_weights.hdf5',
     custom_objects={'bce_dice_loss': bce_dice_loss, 'dice_coef': dice_coef}
 )
 

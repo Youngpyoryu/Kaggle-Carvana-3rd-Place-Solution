@@ -5,6 +5,7 @@ import pandas as pd
 from keras.callbacks import EarlyStopping, ReduceLROnPlateau, ModelCheckpoint
 from sklearn.model_selection import train_test_split
 from model import get_dilated_unet
+from PIL import Image
 
 WIDTH = 1024
 HEIGHT = 1024
@@ -50,11 +51,13 @@ def train_generator(df):
             ids_train_batch = df.iloc[shuffle_indices[start:end]]
             
             for _id in ids_train_batch.values:
-                img = cv2.imread('input/train_hq/{}.jpg'.format(_id))
+                img = cv2.imread('./Kaggle-Carvana-Image-Masking-Challenge-master/input/train_hq/{}.jpg'.format(_id))
                 img = cv2.resize(img, (WIDTH, HEIGHT), interpolation=cv2.INTER_AREA)
-                
-                mask = cv2.imread('input/train_masks/{}_mask.png'.format(_id), cv2.IMREAD_GRAYSCALE)
-                mask = cv2.resize(mask, (WIDTH, HEIGHT), interpolation=cv2.INTER_AREA)
+                im = np.array(Image.open('./Kaggle-Carvana-Image-Masking-Challenge-master/{}_mask.gif'.format(_id)))
+                mask = np.resize(im, ((WIDTH, HEIGHT)))
+                #mask = cv2.imread('input/train_masks/{}_mask.png'.format(_id), cv2.IMREAD_GRAYSCALE)
+                #mask = cv2.resize(mask, (WIDTH, HEIGHT), interpolation=cv2.INTER_AREA)
+
                 mask = np.expand_dims(mask, axis=-1)
                 assert mask.ndim == 3
                 
@@ -82,12 +85,12 @@ def valid_generator(df):
             ids_train_batch = df.iloc[start:end]
 
             for _id in ids_train_batch.values:
-                img = cv2.imread('input/train_hq/{}.jpg'.format(_id))
+                img = cv2.imread('Kaggle-Carvana-Image-Masking-Challenge-master/input/train_hq/{}.jpg'.format(_id))
                 img = cv2.resize(img, (WIDTH, HEIGHT), interpolation=cv2.INTER_AREA)
-
-                mask = cv2.imread('input/train_masks/{}_mask.png'.format(_id),
-                                  cv2.IMREAD_GRAYSCALE)
-                mask = cv2.resize(mask, (WIDTH, HEIGHT), interpolation=cv2.INTER_AREA)
+                im = np.array(Image.open('./Kaggle-Carvana-Image-Masking-Challenge-master/{}_mask.gif'.format(_id)))
+                mask = np.resize(im, ((WIDTH, HEIGHT)))
+                #mask = cv2.imread('input/train_masks/{}_mask.png'.format(_id), cv2.IMREAD_GRAYSCALE)
+                #mask = cv2.resize(mask, (WIDTH, HEIGHT), interpolation=cv2.INTER_AREA)
                 mask = np.expand_dims(mask, axis=-1)
                 assert mask.ndim == 3
                 
@@ -102,7 +105,7 @@ def valid_generator(df):
 
 if __name__ == '__main__':
 
-    df_train = pd.read_csv('input/train_masks.csv')
+    df_train = pd.read_csv('Kaggle-Carvana-Image-Masking-Challenge-master/input/train_masks.csv')
     ids_train = df_train['img'].map(lambda s: s.split('.')[0])
 
     ids_train, ids_valid = train_test_split(ids_train, test_size=0.1)
