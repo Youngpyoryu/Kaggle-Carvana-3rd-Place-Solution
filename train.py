@@ -51,9 +51,9 @@ def train_generator(df):
             ids_train_batch = df.iloc[shuffle_indices[start:end]]
             
             for _id in ids_train_batch.values:
-                img = cv2.imread('./Kaggle-Carvana-Image-Masking-Challenge-master/input/train_hq/{}.jpg'.format(_id))
-                img = cv2.resize(img, (WIDTH, HEIGHT), interpolation=cv2.INTER_AREA)
-                im = np.array(Image.open('./Kaggle-Carvana-Image-Masking-Challenge-master/{}_mask.gif'.format(_id)))
+                img = cv2.imread('./../Kaggle-Carvana-Image-Masking-Challenge-master/input/train_hq/{}.jpg'.format(_id))
+                img = cv2.resize(img, (WIDTH, HEIGHT),interpolation=cv2.INTER_AREA)
+                im = np.array(Image.open('./../Kaggle-Carvana-Image-Masking-Challenge-master/{}_mask.gif'.format(_id)))
                 mask = np.resize(im, ((WIDTH, HEIGHT)))
                 #mask = cv2.imread('input/train_masks/{}_mask.png'.format(_id), cv2.IMREAD_GRAYSCALE)
                 #mask = cv2.resize(mask, (WIDTH, HEIGHT), interpolation=cv2.INTER_AREA)
@@ -85,9 +85,9 @@ def valid_generator(df):
             ids_train_batch = df.iloc[start:end]
 
             for _id in ids_train_batch.values:
-                img = cv2.imread('Kaggle-Carvana-Image-Masking-Challenge-master/input/train_hq/{}.jpg'.format(_id))
+                img = cv2.imread('./../Kaggle-Carvana-Image-Masking-Challenge-master/input/train_hq/{}.jpg'.format(_id))
                 img = cv2.resize(img, (WIDTH, HEIGHT), interpolation=cv2.INTER_AREA)
-                im = np.array(Image.open('./Kaggle-Carvana-Image-Masking-Challenge-master/{}_mask.gif'.format(_id)))
+                im = np.array(Image.open('./../Kaggle-Carvana-Image-Masking-Challenge-master/{}_mask.gif'.format(_id)))
                 mask = np.resize(im, ((WIDTH, HEIGHT)))
                 #mask = cv2.imread('input/train_masks/{}_mask.png'.format(_id), cv2.IMREAD_GRAYSCALE)
                 #mask = cv2.resize(mask, (WIDTH, HEIGHT), interpolation=cv2.INTER_AREA)
